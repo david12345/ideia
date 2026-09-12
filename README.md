@@ -7,6 +7,13 @@ crescimento interior, meditação e transmutação de sombras emocionais.
 Funciona diretamente no telemóvel ou no PC, sem instalação: é uma aplicação
 web estática (HTML + CSS + JavaScript puro, sem dependências ou build).
 
+## 🎮 Jogar online
+
+**https://david12345.github.io/ideia/**
+
+O site é publicado automaticamente no GitHub Pages a cada push a este
+branch, através do workflow em `.github/workflows/deploy-pages.yml`.
+
 ## Conceito
 
 - **Medita** para gerar Luz, a energia principal do jogo (também cresce
@@ -45,4 +52,5 @@ js/state.js        Estado do jogador, persistência e economia (luz/essência/ka
 js/battle.js       Geração de estágios e motor de combate por turnos
 js/ui.js           Renderização das vistas a partir do estado do jogo
 js/main.js         Arranque, navegação e ligação de eventos
+.github/workflows/deploy-pages.yml   Publicação automática no GitHub Pages
 ```
