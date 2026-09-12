@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#16142e" />
+  <title>Caminho da Luz — Jornada Espiritual</title>
+  <meta name="description" content="Um jogo de coleção e evolução espiritual para navegador: medita, invoca espíritos e transmuta sombras interiores." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A8%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topo">
+      <h1>✨ Caminho da Luz</h1>
+      <div class="recursos">
+        <span class="recurso" title="Luz">💡 <span id="hud-luz">0</span></span>
+        <span class="recurso" title="Essência">🔮 <span id="hud-essencia">0</span></span>
+        <span class="recurso" title="Karma">☯️ <span id="hud-karma">0</span></span>
+      </div>
+    </header>
+
+    <!-- ---------------- VIEW: INÍCIO ---------------- -->
+    <section class="view ativa" id="view-inicio">
+      <div class="card">
+        <h2>Meditação</h2>
+        <p class="sub">A sua energia de Luz cresce sozinha com o tempo. Medite ativamente para acelerar.</p>
+        <div class="meditacao-wrap">
+          <div class="circulo-respirar" id="circulo-respirar">🧘</div>
+          <button class="btn btn-full" id="btn-meditar">Meditar (+Luz)</button>
+          <p class="sub" id="meditar-status"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Sequência diária</h2>
+        <div class="streak-box">
+          <div>
+            <div id="streak-dias" style="font-size:1.4rem;font-weight:700;">0 dias</div>
+            <p class="sub">Volte todos os dias para ganhar Karma.</p>
+          </div>
+          <div style="font-size:2rem;">🔥</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>A sua jornada</h2>
+        <p class="sub" id="resumo-progresso">Estágio 1 · Raiz</p>
+        <div class="barra"><div id="barra-progresso" style="width:0%"></div></div>
+      </div>
+    </section>
+
+    <!-- ---------------- VIEW: ESPÍRITOS ---------------- -->
+    <section class="view" id="view-espiritos">
+      <div class="card">
+        <h2>Os seus Espíritos</h2>
+        <p class="sub">Toque num espírito para ver detalhes, evoluir ou adicionar à party (máx. 3).</p>
+        <p class="sub">Party atual: <span id="party-resumo">—</span></p>
+      </div>
+      <div class="grelha-espiritos" id="grelha-espiritos"></div>
+    </section>
+
+    <!-- ---------------- VIEW: JORNADA / BATALHA ---------------- -->
+    <section class="view" id="view-jornada">
+      <div class="card" id="card-mapa">
+        <h2>Caminho da Luz</h2>
+        <p class="sub">Enfrente as sombras interiores e avance pelos reinos dos chakras.</p>
+        <div class="mapa-lista" id="mapa-lista"></div>
+      </div>
+
+      <div class="card" id="card-batalha" style="display:none;">
+        <h2 id="batalha-titulo">Combate</h2>
+        <div class="arena">
+          <div class="times">
+            <div class="time-col">
+              <h3>Sua Party</h3>
+              <div id="col-jogador"></div>
+            </div>
+            <div class="time-col">
+              <h3>Sombras</h3>
+              <div id="col-inimigo"></div>
+            </div>
+          </div>
+          <div class="log-batalha" id="log-batalha"></div>
+          <div class="linha-botoes">
+            <button class="btn" id="btn-round">Avançar</button>
+            <button class="btn secundario" id="btn-bencao">✨ Bênção (20 💡)</button>
+            <button class="btn secundario" id="btn-fugir">Recuar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------- VIEW: INVOCAR ---------------- -->
+    <section class="view" id="view-invocar">
+      <div class="card">
+        <h2>Invocar Espírito</h2>
+        <p class="sub">Use Luz acumulada para invocar um novo espírito guardião.</p>
+        <div class="invocar-area">
+          <div class="orbe" id="orbe-invocar">🔮</div>
+          <button class="btn" id="btn-invocar">Invocar (<span id="custo-invocar">80</span> 💡)</button>
+          <div class="resultado-invocacao" id="resultado-invocacao" style="display:none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------- VIEW: AJUSTES ---------------- -->
+    <section class="view" id="view-ajustes">
+      <div class="card">
+        <h2>Ajustes</h2>
+        <p class="sub">O jogo guarda-se automaticamente neste navegador.</p>
+        <div class="linha-botoes">
+          <button class="btn secundario" id="btn-exportar">Exportar save</button>
+          <button class="btn secundario" id="btn-importar">Importar save</button>
+          <button class="btn perigo" id="btn-reset">Reiniciar jogo</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Sobre</h2>
+        <p class="sub">Caminho da Luz é um jogo de coleção e progressão espiritual: medite, colecione espíritos ligados aos sete chakras e transmute sombras interiores em vez de as destruir com violência.</p>
+      </div>
+    </section>
+
+    <!-- ---------------- NAVEGAÇÃO ---------------- -->
+    <nav class="nav">
+      <button class="ativo" data-view="inicio"><span class="icone">🧘</span>Início</button>
+      <button data-view="espiritos"><span class="icone">🌟</span>Espíritos</button>
+      <button data-view="jornada"><span class="icone">🗺️</span>Jornada</button>
+      <button data-view="invocar"><span class="icone">🔮</span>Invocar</button>
+      <button data-view="ajustes"><span class="icone">⚙️</span>Ajustes</button>
+    </nav>
+  </div>
+
+  <!-- ---------------- MODAL: DETALHE DO ESPÍRITO ---------------- -->
+  <div class="overlay" id="overlay-espirito">
+    <div class="modal" id="modal-espirito"></div>
+  </div>
+
+  <div class="toast-wrap" id="toast-wrap"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/battle.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
